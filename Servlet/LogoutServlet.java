@@ -1,7 +1,7 @@
 package com.Servlet;
 
-import jakarta.servlet.http.*;
-import jakarta.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.*;
 import java.io.IOException;
 
 public class LogoutServlet extends HttpServlet {

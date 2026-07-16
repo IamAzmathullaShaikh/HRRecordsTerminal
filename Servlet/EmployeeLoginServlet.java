@@ -6,9 +6,9 @@ import com.DAO.Dao;
 import com.DAOImpl.DaoImpl;
 import com.Model.EmployeeDetails;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
 
 @WebServlet("/EmployeeLoginServlet")
 public class EmployeeLoginServlet extends HttpServlet {
