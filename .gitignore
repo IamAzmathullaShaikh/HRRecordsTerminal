@@ -1,0 +1,19 @@
+# IDEs and Editors
+.idea/
+.vscode/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Build & Dependency Directories
+target/
+build/
+bin/
+out/
+node_modules/
+
+# Credentials & environment configuration
+.env
+*.properties
