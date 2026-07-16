@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Applicant Dashboard | HRMS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: #f4f7fb;
+    color: #2c3e50;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    height: 70px;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+/* ===== RIGHT NAV ===== */
+.right-nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.right-nav a {
+    color: #dce3ea;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.right-nav a:hover {
+    color: #ffffff;
+}
+
+/* ===== PROFILE ===== */
+.profile {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile img {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* ===== PROFILE PANEL ===== */
+.profile-panel {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    display: none;
+    z-index: 100;
+}
+
+.profile-panel h3 {
+    margin: 0;
+    padding: 15px;
+    background: #f4f7fb;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-panel .detail {
+    padding: 10px 15px;
+    font-size: 14px;
+}
+
+.profile-panel button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #2c3e50;
+    color: white;
+    cursor: pointer;
+    border-radius: 0 0 12px 12px;
+}
+
+/* ===== MAIN ===== */
+.main {
+    padding: 35px;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    margin: 0;
+}
+
+.page-title p {
+    color: #6b7c93;
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-top: 0;
+    font-size: 15px;
+    color: #6b7c93;
+}
+
+.card p {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* ===== CONTACT SECTION ===== */
+.section {
+    margin-top: 40px;
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* ===== CHATBOT ===== */
+.chatbot {
+    position: fixed;
+    bottom: 90px;
+    right: 25px;
+    width: 340px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatbot-header {
+    background: #2c3e50;
+    color: white;
+    padding: 14px;
+    font-weight: 600;
+}
+
+.chatbot-body {
+    padding: 15px;
+    height: 260px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.msg {
+    margin-bottom: 10px;
+}
+
+.bot {
+    color: #2c3e50;
+}
+
+.user {
+    text-align: right;
+    color: #1f7ae0;
+}
+
+.chatbot-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+}
+
+.chatbot-input button {
+    padding: 10px 15px;
+    border: none;
+    background: #2c3e50;
+    color: white;
+    cursor: pointer;
+}
+
+/* ===== CHATBOT ICON ===== */
+.chatbot-icon {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: #2c3e50;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+.chatbot-icon img {
+    width: 34px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<div class="navbar">
+    <div class="logo">HRMS Applicant Portal</div>
+
+    <div class="right-nav">
+        <a href="#">Home</a>
+        <a href="#contact">Contact</a>
+
+        <div class="profile" onclick="toggleProfile()">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+            <div class="profile-panel" id="profilePanel">
+                <h3>Applicant Details</h3>
+                <div class="detail"><b>Name:</b> John Doe</div>
+                <div class="detail"><b>Email:</b> john@gmail.com</div>
+                <div class="detail"><b>Applied Role:</b> Software Engineer</div>
+                <div class="detail"><b>Status:</b> Under Review</div>
+                <button>Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
+
+    <div class="page-title">
+        <h1>Applicant Dashboard</h1>
+        <p>Track your application and interview progress</p>
+    </div>
+
+    <div class="cards">
+        <div class="card">
+            <h3>📄 Application Status</h3>
+            <p>Under Review</p>
+        </div>
+
+        <div class="card">
+            <h3>💼 Applied Position</h3>
+            <p>Software Engineer</p>
+        </div>
+
+        <div class="card">
+            <h3>🤖 Interview Stage</h3>
+            <p>AI Screening</p>
+        </div>
+
+        <div class="card">
+            <h3>📎 Resume</h3>
+            <p>Uploaded</p>
+        </div>
+    </div>
+
+    <div class="section" id="contact">
+        <h2>Contact HR</h2>
+        <p>Email: hr@company.com</p>
+        <p>Phone: +91 98765 43210</p>
+    </div>
+</div>
+
+<!-- ===== CHATBOT ===== -->
+<div class="chatbot" id="chatbot">
+    <div class="chatbot-header">AI Interview Assistant</div>
+    <div class="chatbot-body" id="chatBody"></div>
+    <div class="chatbot-input">
+        <input type="text" id="userInput" placeholder="Type your answer..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<div class="chatbot-icon" onclick="toggleChatbot()">
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+</div>
+
+<script>
+/* ===== PROFILE PANEL ===== */
+function toggleProfile() {
+    const p = document.getElementById("profilePanel");
+    p.style.display = p.style.display === "block" ? "none" : "block";
+}
+
+/* ===== CHATBOT LOGIC ===== */
+let step = 0, skill = "", score = 0, qIndex = 0;
+
+const generalQuestions = [
+    "Hello! Welcome to the AI Interview. What is your name?",
+    "How many years of experience do you have?",
+    "What is your primary technical skill? (Java / Python)"
+];
+
+const technicalQuestions = {
+    java: [
+        {q:"What is JVM?", k:["virtual","machine"]},
+        {q:"Explain OOPS concepts.", k:["inheritance","encapsulation","polymorphism"]},
+        {q:"ArrayList vs LinkedList?", k:["array","linked"]},
+        {q:"What is multithreading?", k:["thread"]},
+        {q:"Explain exception handling.", k:["try","catch"]}
+    ],
+    python: [
+        {q:"What is Python?", k:["interpreted"]},
+        {q:"List vs Tuple?", k:["mutable","immutable"]},
+        {q:"What is dictionary?", k:["key","value"]},
+        {q:"Explain PEP8.", k:["standard"]},
+        {q:"What is a function?", k:["def"]}
+    ]
+};
+
+function toggleChatbot() {
+    const c = document.getElementById("chatbot");
+    c.style.display = c.style.display === "flex" ? "none" : "flex";
+    if(step === 0) addBot(generalQuestions[0]);
+}
+
+function sendMessage() {
+    const input = document.getElementById("userInput");
+    const text = input.value.trim().toLowerCase();
+    if(!text) return;
+
+    addUser(text);
+    input.value = "";
+
+    if(step < 2) {
+        step++;
+        addBot(generalQuestions[step]);
+        return;
+    }
+
+    if(step === 2) {
+        skill = text.includes("java") ? "java" : "python";
+        step++;
+        addBot("Starting technical interview on " + skill.toUpperCase());
+        addBot(technicalQuestions[skill][0].q);
+        return;
+    }
+
+    const q = technicalQuestions[skill][qIndex];
+    if(q.k.some(k => text.includes(k))) score++;
+    qIndex++;
+
+    if(qIndex < 5) {
+        addBot(technicalQuestions[skill][qIndex].q);
+    } else {
+        addBot(score >= 3 ? "✅ PASSED. HR will contact you." : "❌ FAILED. Thank you.");
+    }
+}
+
+function addBot(msg) {
+    const d = document.createElement("div");
+    d.className = "msg bot";
+    d.innerText = msg;
+    chatBody.appendChild(d);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function addUser(msg) {
+    const d = document.createElement("div");
+    d.className = "msg user";
+    d.innerText = msg;
+    chatBody.appendChild(d);
+    chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+/* ===== CLOSE PROFILE ON OUTSIDE CLICK ===== */
+document.addEventListener("click", function(e) {
+    const profile = document.querySelector(".profile");
+    const panel = document.getElementById("profilePanel");
+    if (!profile.contains(e.target)) {
+        panel.style.display = "none";
+    }
+});
+</script>
+
+</body>
+</html>
